@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Checks the environment variable
+if [ -z "$PYFILE" ]; then
+	echo "Error: PYFILE environment variable is not set."
+	exit 1
+fi
+
+# Checks if file exists
+if [ ! -f "$PYFILE" ]; then
+	echo "Error: Python file '$PYFILE' does not exist."
+	exit 1
+fi
+
+python3 "$PYFILE"
