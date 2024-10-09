@@ -1,0 +1,50 @@
+import unittest
+from 2-matrix_divided import matrix_divided
+
+class TestMatrixDivided(unittest.TestCase):
+    def test_integers(self):
+        matrix = [[3, 6, 9], [12, 15, 18]]
+        self.assertEqual(matrix_divided(matrix, 3), [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+
+    def test_floats(self):
+        matrix = [[1.1, -2.2, 3.3], [4.4, 5.5, -6.6]]
+        self.assertEqual(matrix_divided(matrix, 3), [[0.37, -0.73, 1.1], [1.47, 1.83, -2.2]])
+
+    def test_mixed_values(self):
+        matrix = [[1, -2.2, 3, 4.4, 5], [-6.6, 7.00, 8, 9.999, 10]]
+        self.assertEqual(matrix_divided(matrix, 3), [[0.33, -0.73, 1.0, 1.47, 1.67], [-2.2, 2.33, 2.67, 3.33, 3.33]])
+
+    def test_original_matrix_unchanged(self):
+        matrix = [[1, 2, 3], [4, 5, 6]]
+        result = matrix_divided(matrix, 3)
+        self.assertNotEqual(id(matrix), id(result))  # Checks if the original matrix is unchanged
+
+    def test_invalid_matrix(self):
+        with self.assertRaises(TypeError):
+            matrix_divided("not a list", 3)
+        with self.assertRaises(TypeError):
+            matrix_divided(None, 3)
+        with self.assertRaises(TypeError):
+            matrix_divided([], 3)
+        with self.assertRaises(TypeError):
+            matrix_divided([1, 2, 3], 3)
+        with self.assertRaises(TypeError):
+            matrix = [[1, 2, 3], [4, "not a number", 6]]
+            matrix_divided(matrix, 3)
+
+    def test_inconsistent_row_size(self):
+        matrix = [[1, 2, 3, 4], [5, 6, 7]]
+        with self.assertRaises(TypeError):
+            matrix_divided(matrix, 3)
+
+    def test_invalid_divisor(self):
+        matrix = [[1, 2, 3], [4, 5, 6]]
+        with self.assertRaises(TypeError):
+            matrix_divided(matrix, "not a number")
+        with self.assertRaises(TypeError):
+            matrix_divided(matrix, None)
+        with self.assertRaises(ZeroDivisionError):
+            matrix_divided(matrix, 0)
+
+if __name__ == '__main__':
+    unittest.main()

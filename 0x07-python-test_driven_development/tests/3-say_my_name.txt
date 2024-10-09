@@ -1,0 +1,40 @@
+import unittest
+from io import StringIO
+import sys
+from 3-say_my_name import say_my_name
+
+class TestSayMyName(unittest.TestCase):
+    def test_full_name(self):
+        captured_output = StringIO()  # Create a StringIO object to capture output
+        sys.stdout = captured_output  # Redirect stdout to the StringIO object
+        say_my_name("Brennan", "Baraban")
+        sys.stdout = sys.__stdout__  # Reset redirect
+        self.assertEqual(captured_output.getvalue().strip(), "My name is Brennan Baraban")
+
+    def test_first_name_only(self):
+        captured_output = StringIO()
+        sys.stdout = captured_output
+        say_my_name("Brennan")
+        sys.stdout = sys.__stdout__
+        self.assertEqual(captured_output.getvalue().strip(), "My name is Brennan")
+
+    def test_invalid_first_name(self):
+        with self.assertRaises(TypeError):
+            say_my_name(6, "James")
+        with self.assertRaises(TypeError):
+            say_my_name({"LeBron": 6, "James": 23}, "Doe")
+        with self.assertRaises(TypeError):
+            say_my_name(None, "Smith")
+
+    def test_invalid_last_name(self):
+        with self.assertRaises(TypeError):
+            say_my_name("LeBron", ["Cavs", "Lakers", "Heat"])
+        with self.assertRaises(TypeError):
+            say_my_name("LeBron", 7.7)
+
+    def test_missing_first_name(self):
+        with self.assertRaises(TypeError):
+            say_my_name()
+
+if __name__ == '__main__':
+    unittest.main()

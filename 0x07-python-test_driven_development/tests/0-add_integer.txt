@@ -1,0 +1,43 @@
+import unittest
+from 0-add_integer import add_integer
+
+class TestAddInteger(unittest.TestCase):
+    def test_integers(self):
+        self.assertEqual(add_integer(2, 3), 5)
+        self.assertEqual(add_integer(2, -3), -1)
+
+    def test_floats(self):
+        self.assertEqual(add_integer(2.0, 3.0), 5)
+        self.assertEqual(add_integer(2.9, 0.2), 2)
+        self.assertEqual(add_integer(-2.9, -0.2), -2)
+
+    def test_mixed(self):
+        self.assertEqual(add_integer(2.3, -3), -1)
+
+    def test_single_argument(self):
+        self.assertEqual(add_integer(2), 100)
+
+    def test_non_numbers(self):
+        with self.assertRaises(TypeError):
+            add_integer("hello", 3)
+        with self.assertRaises(TypeError):
+            add_integer(2, "hello")
+        with self.assertRaises(TypeError):
+            add_integer(None)
+        with self.assertRaises(TypeError):
+            add_integer(2.3, None)
+
+    def test_infinity(self):
+        with self.assertRaises(OverflowError):
+            add_integer(float('inf'))
+        with self.assertRaises(OverflowError):
+            add_integer(2, float('inf'))
+
+    def test_nan(self):
+        with self.assertRaises(ValueError):
+            add_integer(float('nan'))
+        with self.assertRaises(ValueError):
+            add_integer(2, float('nan'))
+
+if __name__ == '__main__':
+    unittest.main()
